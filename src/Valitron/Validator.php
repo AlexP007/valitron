@@ -1579,4 +1579,20 @@ class Validator
         //array contains at least one key that's not an can not be cast to an integer
         return count(array_filter(array_keys($input), 'is_string')) > 0;
     }
+
+    private function getFieldValue(array $fields, string $key)
+    {
+        $segments = explode('.', $key);
+        print_r($segments);
+        $value = $fields;
+        foreach ($segments as $segment) {
+            if (isset($value[$segment])) {
+                $value = $value[$segment];
+            } else {
+                return null;
+            }
+        }
+
+        return $value;
+    }
 }
