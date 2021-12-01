@@ -1002,9 +1002,12 @@ class Validator
             $allEmpty = isset($params[1]) && (bool)$params[1];
             $filledFields = 0;
             foreach ($reqParams as $requiredField) {
+                $fieldValue = $this->getFieldValue($fields, $requiredField);
                 // check the field is NOT set, null, or the empty string, in which case we are requiring this value be present
-                if (!isset($fields[$requiredField]) || (is_null($fields[$requiredField])
-                    || (is_string($fields[$requiredField]) && trim($fields[$requiredField]) === ''))) {
+                if (
+                    is_null($fieldValue)
+                    || (is_string($fieldValue) && trim($fieldValue) === '')
+                ) {
                     if (!$allEmpty) {
                         $conditionallyReq = true;
                         break;
